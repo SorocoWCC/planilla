@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_planilla_document">
+      <t t-foreach="docs" t-as="o">
+        <div class="page">
+
+          <style>
+            table, td, th {
+              border: 1px solid black; 
+              text-align:center 
+            }
+
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+
+            td {
+              vertical-align: center;
+            }
+          </style>
+        
+        	<!-- Variables -->
+					<t t-set="total_rebajos" t-value="0"/>
+  				<t t-set="total_ccss" t-value="0"/>
+  				<t t-set="total_salario_base" t-value="0"/>
+
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="7"> Planilla Alajuelita <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado</th>
+              <th> Salario Base</th>
+              <th> Rebajos</th>
+              <th> Seguro</th>
+              <th> Salario Total</th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+            	<t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">
+
+            		<t t-set="total_salario_base" t-value="total_salario_base + i.empleado_id.salario"/>
+            		<t t-set="total_ccss" t-value="total_ccss + i.empleado_id.ccss"/>
+            		<t t-set="total_rebajos" t-value="total_rebajos + i.rebajos"/>
+    						<tr>
+                	<td> <t t-esc="i.empleado_id.name"/> </td>
+                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
+                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
+                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
+                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
+              	</tr>
+							</t>
+            </t>
+            <tr>
+            	<th> Total </th>
+            	<th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_salario_base))"/> </th>
+            	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_rebajos))"/> </th>
+            	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_ccss))"/> </th>
+            	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_alajuelita))"/> </th>
+            </tr>
+          </table>
+        </div>
+
+      </t>
+    </template>
+  </data>
+</openerp>
+

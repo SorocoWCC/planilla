@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_lista_document">
+      <t t-foreach="docs" t-as="o">
+        <div class="page">
+
+          <style>
+            table, td, th {
+              border: 1px solid black; 
+              text-align:center 
+            }
+
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+
+            td {
+              vertical-align: center;
+            }
+          </style>
+        
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="7"> Lista de Asistencia <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado</th>
+              <th> Lunes</th>
+              <th> Martes</th>
+              <th> Miercoles</th>
+              <th> Jueves</th>
+              <th> Viernes</th>
+              <th> Sábado</th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+              <tr>
+                <td>
+                  <t t-esc="i.empleado_id.name"/>
+                </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+              </tr>
+            </t>
+          </table>
+          P = Presente, A = Ausente, MD = Medio Día, F = Feriado
+        </div>
+      </t>
+    </template>
+  </data>
+</openerp>
+

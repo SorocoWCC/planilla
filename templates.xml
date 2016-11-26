@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<!--Action Planilla-->
+		<record id="planilla_action" model="ir.actions.act_window">
+			<field name="name">Planillas</field>
+     	<field name="res_model">planilla</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Presione aquí para crear una planilla.</p>
+			</field>
+		</record>
+
+		<!-- Inherit Form View  Employee-->
+		<record model="ir.ui.view" id="inherit_form_view_employee">
+    	<field name="name">inherit_form_view_employee_planilla</field>
+    	<field name="model">hr.employee</field>
+    	<field name="inherit_id" ref="hr.view_employee_form"/>
+    	<field name="arch" type="xml">
+				<notebook position="inside" >
+					<page string="Información Salarial" >
+						<group>
+							<field  name="salario"/>
+							<field  name="ccss"/>
+						</group>
+					</page>
+				</notebook>
+			</field>
+		</record>
+       
+		<!--Form View planilla-->
+		<record id="planilla_form_view" model="ir.ui.view">
+			<field name="name">planilla.form.view</field>
+			<field name="view_type">form</field>
+			<field name="model">planilla</field>
+			<field name="arch" type="xml">
+				<form string="Planilla"  version="7.0">
+					<header>	
+						<button name="action_estado_planilla" string="Cerrar Planilla" type="object" attrs="{'invisible': ['|', ('state','=','closed')]}" class="oe_highlight" />
+						<button name="action_generar_lista" string="Generar Lista" type="object" attrs="{'invisible': ['|', ('state','=','closed'), ('state','=','progress')]}" class="oe_highlight" />
+						<field name="state" widget="statusbar"  statusbar_colors='{"new":"red","closed":"blue"}'/>
+					</header>
+					<sheet string="Cierre de Caja">
+						<group>			
+							<group >
+								<field  name="fecha_inicio" attrs="{'readonly': ['|', ('state','=','closed')]}"/>
+								<field  name="fecha_final" attrs="{'readonly': ['|', ('state','=','closed')]}"/>
+							</group>	
+							<group >
+								<field  name="total_planilla_sanmiguel" attrs="{'readonly': 'True'}"/>
+								<field  name="total_planilla_parqueo" attrs="{'readonly': 'True'}"/>
+								<field  name="total_planilla_alajuelita" attrs="{'readonly': 'True'}"/>
+								<field  name="total_planilla" attrs="{'readonly': 'True'}"/>
+							</group>					
+						</group>
+
+						<notebook >
+							<page string="Asistencia">
+								<field name="calculo_salario_ids" widget="one2many_list" colspan="4" nolabel="1" attrs="{'readonly': ['|', ('state','=','closed')]}">
+   								<tree editable="bottom">
+			        				<field name="empleado_id"/> 
+			        				<field name="lunes"/>
+			        				<field name="martes"/>
+			        				<field name="miercoles"/>
+			        				<field name="jueves"/>
+			        				<field name="viernes"/>
+			        				<field name="sabado"/>
+			        				<field name="ccss"/>
+			        				<field name="rebajos"/>
+			 						<field name="total_salario"/>                                 
+  				 				</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+      	</form>
+			</field>
+		</record>
+
+		<!--Tree Planilla-->
+		<record id="planilla_tree_view" model="ir.ui.view">
+			<field name="name">planilla_tree_view</field>
+			<field name="view_type">tree</field>
+			<field name="model">planilla</field>
+			<field name="arch" type="xml">
+				<tree string="Planilla" colors="blue:state == 'new';blue:state == 'progress';black:state in ('closed');">
+					<field name="fecha_inicio" />
+					<field name="fecha_final"/>
+					<field name="total_planilla"/>
+					<field name="state" string="Estado"/>
+				</tree>
+			</field>
+		</record>
+
+
+     <!-- Menus -->
+     <menuitem action="planilla_action" id="menu_planilla_tree" name="Planillas" parent="hr.menu_hr_main" sequence="9"/>
+    
+   </data>
+</openerp>

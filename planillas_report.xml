@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            string="Asistencia" 
+            id="custom_report_lista" 
+            model="planilla" 
+            report_type="qweb-pdf"
+            name="planillas.report_lista_document" 
+            file="Lista de Asistencia" 
+        />
+        <report 
+            string="Planilla" 
+            id="custom_report_planilla" 
+            model="planilla" 
+            report_type="qweb-pdf"
+            name="planillas.report_planilla_document" 
+            file="Planilla" 
+        />
+    </data>
+</openerp>
