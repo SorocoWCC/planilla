@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_firmas_document">
+      <t t-foreach="docs" t-as="o">
+        <div class="page">
+
+          <style>
+            table, td, th {
+              border: 1px solid black; 
+              text-align:center;
+              font-size: 12px; 
+            }
+
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+
+            td {
+              vertical-align: left;
+              width: 50%;
+              font-size: 12px; 
+            }
+          </style>
+        
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="7"> Lista de Firmas - Recibo Salario <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado</th>
+              <th> Firma</th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+              <tr>
+                <td style="text-align:left">
+                  <t t-esc="i.empleado_id.name"/>
+                </td>
+                <td> </td>
+              </tr>
+            </t>
+          </table>
+        </div>
+      </t>
+    </template>
+  </data>
+</openerp>
+

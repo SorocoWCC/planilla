@@ -27,7 +27,8 @@
         'templates.xml',
         'planillas_report.xml',       
         'views/report_lista.xml',
-        'views/report_planilla.xml'
+        'views/report_planilla.xml',
+        'views/report_firmas.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

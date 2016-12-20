@@ -8,7 +8,8 @@
           <style>
             table, td, th {
               border: 1px solid black; 
-              text-align:center 
+              text-align:center;
+              font-size: 12px; 
             }
 
             table {
@@ -18,24 +19,51 @@
 
             td {
               vertical-align: center;
+              font-size: 12px; 
             }
           </style>
-        
+
+          <table>
+            <tr> 
+              <th colspan="8"> Planillas <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Alajuelita </th>
+              <th> Parqueo </th>
+              <th> San Miguel </th>
+              <th> Total </th>
+            </tr>
+            <tr>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_alajuelita))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_parqueo))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_sanmiguel))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla))" /> </th>
+            </tr>
+          </table>
+
+          <div  style="height: 40px;"> </div>
+
         	<!-- Variables -->
 					<t t-set="total_rebajos" t-value="0"/>
   				<t t-set="total_ccss" t-value="0"/>
   				<t t-set="total_salario_base" t-value="0"/>
+          <t t-set="total_ausencias" t-value="0"/>
+          <t t-set="total_feriados" t-value="0"/>
+          <t t-set="total_adelantos" t-value="0"/>
 
           <table>
             <tr> 
-              <th style="text-align:center" colspan="7"> Planilla Alajuelita <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+              <th style="text-align:center" colspan="8"> Planilla Alajuelita <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
             </tr>
             <tr> 
-              <th> Empleado</th>
-              <th> Salario Base</th>
+              <th> Empleado </th>
+              <th> Salario Base </th>
+              <th> Ausencias </th>
+              <th> Feriados </th>
               <th> Rebajos</th>
-              <th> Seguro</th>
-              <th> Salario Total</th>
+              <th> Adelantos </th>
+              <th> Seguro </th>
+              <th> Salario Total </th>
             </tr>
             <t t-foreach="o.calculo_salario_ids" t-as="i">
             	<t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">
@@ -43,25 +71,196 @@
             		<t t-set="total_salario_base" t-value="total_salario_base + i.empleado_id.salario"/>
             		<t t-set="total_ccss" t-value="total_ccss + i.empleado_id.ccss"/>
             		<t t-set="total_rebajos" t-value="total_rebajos + i.rebajos"/>
-    						<tr>
-                	<td> <t t-esc="i.empleado_id.name"/> </td>
-                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
-                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
-                	<td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
-              	</tr>
+                <t t-set="total_ausencias" t-value="total_ausencias + i.ausencias"/>
+                <t t-set="total_feriados" t-value="total_feriados + i.feriados"/>
+                <t t-set="total_adelantos" t-value="total_adelantos + i.adelantos"/>
+
+                <t t-if=" i.total_salario > 0 ">
+    						  <tr>
+                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
+                  </tr>
+                </t>  
 							</t>
             </t>
             <tr>
             	<th> Total </th>
             	<th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_salario_base))"/> </th>
+              <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_ausencias))"/> </th>
+              <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_feriados))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_rebajos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_adelantos))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_ccss))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_alajuelita))"/> </th>
             </tr>
           </table>
-        </div>
 
+          <p style="page-break-after:always;">   </p>
+
+          <!-- Variables -->
+          <t t-set="parqueo_total_rebajos" t-value="0"/>
+          <t t-set="parqueo_total_ccss" t-value="0"/>
+          <t t-set="parqueo_total_salario_base" t-value="0"/>
+          <t t-set="parqueo_total_ausencias" t-value="0"/>
+          <t t-set="parqueo_total_feriados" t-value="0"/>
+          <t t-set="parqueo_total_adelantos" t-value="0"/>
+
+          <t t-set="sm_total_rebajos" t-value="0"/>
+          <t t-set="sm_total_ccss" t-value="0"/>
+          <t t-set="sm_total_salario_base" t-value="0"/>
+          <t t-set="sm_total_ausencias" t-value="0"/>
+          <t t-set="sm_total_feriados" t-value="0"/>
+          <t t-set="sm_total_adelantos" t-value="0"/>
+
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="8"> Planilla Parqueo <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado</th>
+              <th> Salario Base</th>
+              <th> Ausencias </th>
+              <th> Feriados </th>
+              <th> Rebajos</th>
+              <th> Adelantos </th>
+              <th> Seguro</th>
+              <th> Salario Total</th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+              <t t-if="i.empleado_id.department_id.name == 'Parqueo' ">
+                <t t-set="parqueo_total_salario_base" t-value="parqueo_total_salario_base + i.empleado_id.salario"/>
+                <t t-set="parqueo_total_ccss" t-value="parqueo_total_ccss + i.empleado_id.ccss"/>
+                <t t-set="parqueo_total_rebajos" t-value="parqueo_total_rebajos + i.rebajos"/>
+                <t t-set="parqueo_total_ausencias" t-value="parqueo_total_ausencias + i.ausencias"/>
+                <t t-set="parqueo_total_feriados" t-value="parqueo_total_feriados + i.feriados"/>
+                <t t-set="parqueo_total_adelantos" t-value="parqueo_total_adelantos + i.adelantos"/>
+
+                <t t-if=" i.total_salario > 0 ">
+                  <tr>
+                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
+                  </tr>
+                </t>  
+              </t>
+            </t>
+            <tr>
+              <th> Total </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_salario_base))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_ausencias))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_feriados))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_rebajos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_adelantos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_ccss))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_parqueo))"/> </th>
+            </tr>
+          </table>
+
+          <div  style="height: 40px;"> </div>
+
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="8"> Planilla San Miguel <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado</th>
+              <th> Salario Base</th>
+              <th> Ausencias </th>
+              <th> Feriados </th>
+              <th> Rebajos</th>
+              <th> Adelantos </th>
+              <th> Seguro</th>
+              <th> Salario Total</th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+              <t t-if="i.empleado_id.department_id.name == 'San Miguel' ">
+                <t t-set="sm_total_salario_base" t-value="sm_total_salario_base + i.empleado_id.salario"/>
+                <t t-set="sm_total_ccss" t-value="sm_total_ccss + i.empleado_id.ccss"/>
+                <t t-set="sm_total_rebajos" t-value="sm_total_rebajos + i.rebajos"/>
+                <t t-set="sm_total_ausencias" t-value="sm_total_ausencias + i.ausencias"/>
+                <t t-set="sm_total_feriados" t-value="sm_total_feriados + i.feriados"/>
+                <t t-set="sm_total_adelantos" t-value="sm_total_adelantos + i.adelantos"/>
+
+                <t t-if=" i.total_salario > 0 ">
+                  <tr>
+                    <td style="text-align:left" > <t t-esc="i.empleado_id.name"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
+                  </tr>
+                </t>  
+              </t>
+            </t>
+            <tr>
+              <th> Total </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_salario_base))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_ausencias))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_feriados))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_rebajos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_adelantos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_ccss))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_parqueo))"/> </th>
+            </tr>
+          </table>
+
+          <div  style="height: 40px;"> </div>
+        
+          <!-- Variables Resumen Prestamos -->
+          <t t-set="total_prestamos" t-value="0"/>
+          <t t-set="total_abonos" t-value="0"/>
+          <t t-set="total_saldos" t-value="0"/>
+
+          <table>
+            <tr> 
+              <th style="text-align:center" colspan="8"> Resumen de Prestamos <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+            </tr>
+            <tr> 
+              <th> Empleado </th>
+              <th> Monto </th>
+              <th> Abono </th>
+              <th> Saldo </th>
+            </tr>
+            <t t-foreach="o.calculo_salario_ids" t-as="i">
+              <t t-if="i.saldo_prestamo > 0 ">
+                <t t-set="total_prestamos" t-value="total_prestamos + i.monto_prestamo"/>
+                <t t-set="total_abonos" t-value="total_abonos + i.prestamos"/>
+                <t t-set="total_saldos" t-value="total_saldos + i.saldo_prestamo"/>
+
+                <t t-if=" i.saldo_prestamo > 0 ">
+                  <tr>
+                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.monto_prestamo))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/> </td>
+                  </tr>
+                </t>  
+              </t>
+            </t>
+            <tr>
+              <th> Total </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_prestamos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_abonos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_saldos))"/> </th>
+            </tr>
+          </table>
+
+
+        </div> 
       </t>
     </template>
   </data>

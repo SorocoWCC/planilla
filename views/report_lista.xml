@@ -8,35 +8,41 @@
           <style>
             table, td, th {
               border: 1px solid black; 
-              text-align:center 
+              text-align:center;
+              font-size: 11px; 
+
             }
 
             table {
               border-collapse: collapse;
-              width: 100%;
+              width: 100%
             }
 
             td {
               vertical-align: center;
+              font-size: 11px;
             }
+
           </style>
         
           <table>
             <tr> 
-              <th style="text-align:center" colspan="7"> Lista de Asistencia <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+              <th style="text-align:center" colspan="9"> Lista de Asistencia <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
             </tr>
             <tr> 
-              <th> Empleado</th>
-              <th> Lunes</th>
-              <th> Martes</th>
-              <th> Miercoles</th>
-              <th> Jueves</th>
-              <th> Viernes</th>
-              <th> Sábado</th>
+              <th style="text-align:center"> Empleado</th>
+              <th style="text-align:center"> Lunes</th>
+              <th style="text-align:center"> Martes</th>
+              <th style="text-align:center"> Miercoles</th>
+              <th style="text-align:center"> Jueves</th>
+              <th style="text-align:center"> Viernes</th>
+              <th style="text-align:center"> Sábado</th>
+              <th style="text-align:center"> Prestamos</th>
+              <th style="text-align:center"> Vales </th>
             </tr>
             <t t-foreach="o.calculo_salario_ids" t-as="i">
               <tr>
-                <td>
+                <td style="text-align:left">
                   <t t-esc="i.empleado_id.name"/>
                 </td>
                 <td> </td>
@@ -45,10 +51,45 @@
                 <td> </td>
                 <td> </td>
                 <td> </td>
+                <td> </td>
+                <td> </td>
               </tr>
             </t>
+             <tr>
+                <td style="text-align:left">N= </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+              </tr>
+              <tr>
+                <td style="text-align:left">N=</td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+              </tr>
+              <tr>
+                <td style="text-align:left">N=</td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+              </tr>
           </table>
-          P = Presente, A = Ausente, MD = Medio Día, F = Feriado
+          P = Presente, A = Ausente, MD = Medio Día, F = Feriado, N = Nuevo Ingreso
         </div>
       </t>
     </template>

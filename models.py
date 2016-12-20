@@ -14,30 +14,81 @@ class employee(models.Model):
 class calculo_salario(models.Model):
     _name = "calculo_salario"
     total_salario = fields.Float(compute='_calcular_salario', store=True, string="Total")
-    ccss = fields.Float('CCSS:', readonly=True)
+    ccss = fields.Float('CCSS', readonly=True)
     rebajos = fields.Float(string='Rebajos')
+    ausencias = fields.Float(string='Ausencias')
+    adelantos = fields.Float(string='Adelantos')
+    feriados = fields.Float(string='Feriados')
+    prestamos = fields.Float(string='Prestamos')
+    saldo_prestamo = fields.Float(string='Saldo Prestamos')
+    monto_prestamo = fields.Float(string='Total Prestamo')
     notas = fields.Text('Observaciones')
     planilla_id= fields.Many2one(comodel_name='planilla', string='Planilla ID', delegate=True, required=True)
     empleado_id= fields.Many2one(comodel_name='hr.employee', string='Empleado', delegate=True, required=True)
-    lunes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
-    martes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
-    miercoles = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
-    jueves = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
-    viernes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
-    sabado = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ])
+    lunes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
+    martes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
+    miercoles = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
+    jueves = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
+    viernes = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
+    sabado = fields.Selection([('1', 'Presente'), ('0', 'Ausente'), ('0.5', 'Medio Dia'), ('2', 'Feriado')  ], default="1")
     _defaults = {
     'cajero_id': lambda self, cr, uid, ctx=None: uid
-    }
 
+    }
 
 # Calculo del Salario
     @api.one
-    @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'empleado_id', 'rebajos')
+    @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'empleado_id', 'rebajos', 'adelantos', 'prestamos')
     def _calcular_salario(self):
+			ausencias= 0
+			feriados = 0
 			salario_diario= float(self.empleado_id.salario) / 6
 			dias_laborados= float(self.lunes) + float(self.martes) + float(self.miercoles) + float(self.jueves) + float(self.viernes) + float(self.sabado)
-			total= (((salario_diario * dias_laborados) - float(self.empleado_id.ccss) - float(self.rebajos) ))
-			self.total_salario= total
+			
+			# Calculo de salarios
+			total= (((salario_diario * dias_laborados) - float(self.empleado_id.ccss) - (float(self.rebajos) + float(self.adelantos) + float(self.prestamos) ) ))
+			if total < 0 :
+				self.total_salario= 0
+			else :
+				self.total_salario= total
+
+			# Calculo de Ausencias
+			if float(self.lunes) == 0 :
+				ausencias += 1
+			if float(self.martes) == 0 :
+				ausencias += 1
+			if float(self.miercoles) == 0 :
+				ausencias += 1	
+			if float(self.jueves) == 0 :
+				ausencias += 1		
+			if float(self.viernes) == 0 :
+				ausencias += 1
+			if float(self.sabado) == 0 :
+				ausencias += 1
+
+			self.ausencias = ausencias * salario_diario
+
+			# Calculo de Feriados
+			if float(self.lunes) == 2 :
+				print 'Lunes'
+				feriados += 1
+			if float(self.martes) == 2 :
+				print 'Martes'
+				feriados += 1
+			if float(self.miercoles) == 2 :
+				print 'miercoles'
+				feriados += 1	
+			if float(self.jueves) == 2 :
+				print 'jueves'
+				feriados += 1		
+			if float(self.viernes) == 2 :
+				print 'viernes'
+				feriados += 1
+			if float(self.sabado) == 2 :
+				print 'sabado'
+				feriados += 1
+
+			self.feriados = feriados * salario_diario
 
 # Clase Planilla
 class planillla(models.Model):
@@ -94,7 +145,36 @@ class planillla(models.Model):
 				self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'planilla_id': str(self.id) })
    		self.state= 'progress'	
 
-# Cambiar el estado de la planilla a cerrado 
+# Cambiar el estado de la planilla a cerrado y procesar abonos a prestamos
     @api.one
     def action_estado_planilla(self): 		
-   		self.state= 'closed'	
+   		lista_prestamos= self.env['empleado.allowance'].search([('state', '=', 'new')])
+   		# Notas para incluir en el detalle del abono
+   		notas = 'Planilla del ' + str(self.fecha_inicio) + ' al ' + str(self.fecha_final)
+   		for employee in self.calculo_salario_ids:
+   			# valida si hay un abono al prestamos en la planilla
+   			if employee.prestamos > 0 :
+   				print 'Empleado ->' + str( employee.empleado_id.name ) 
+   				# Busca si el empleado tiene un prestamo activo
+   				for prestamo in lista_prestamos :
+   					if employee.empleado_id == prestamo.res_employee_id :
+					# Valida si tiene el salario suficiente para abonar al prestamo
+						if employee.total_salario > 0 :
+							# Valida si todavia hay saldo en el prestamo antes de hacer el abono
+							if prestamo.saldo >= employee.prestamos :
+								# Crea el abono al prestamos
+								prestamo.abono_ids.create({'libro_id': str(prestamo.id), 'monto': float(employee.prestamos), 'notas': str(notas) })
+							else :
+								raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " El abono al prestamo excede su saldo.")	
+   						else :
+   							raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " No tiene salario sufuciente para aplicar un abono al prestamo")	
+
+   		# Estado de los prestamos para mostrar en el reporte de planilla
+   		for employee in self.calculo_salario_ids:
+   		 	for prestamo in lista_prestamos :
+   				if employee.empleado_id == prestamo.res_employee_id :
+   					employee.saldo_prestamo = prestamo.saldo
+   					employee.monto_prestamo = prestamo.total_amortizable
+   		#Cierra la planilla					
+   		self.state= 'closed'
+
