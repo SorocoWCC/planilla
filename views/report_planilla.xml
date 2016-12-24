@@ -50,12 +50,14 @@
           <t t-set="total_ausencias" t-value="0"/>
           <t t-set="total_feriados" t-value="0"/>
           <t t-set="total_adelantos" t-value="0"/>
+          <t t-set="sobre" t-value="0"/>
 
           <table>
             <tr> 
-              <th style="text-align:center" colspan="8"> Planilla Alajuelita <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+              <th style="text-align:center" colspan="9"> Planilla Alajuelita <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
             </tr>
             <tr> 
+              <th> Sobre</th>
               <th> Empleado </th>
               <th> Salario Base </th>
               <th> Ausencias </th>
@@ -66,8 +68,10 @@
               <th> Salario Total </th>
             </tr>
             <t t-foreach="o.calculo_salario_ids" t-as="i">
+
             	<t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">
 
+                <t t-set="sobre" t-value="sobre + 1"/>
             		<t t-set="total_salario_base" t-value="total_salario_base + i.empleado_id.salario"/>
             		<t t-set="total_ccss" t-value="total_ccss + i.empleado_id.ccss"/>
             		<t t-set="total_rebajos" t-value="total_rebajos + i.rebajos"/>
@@ -77,6 +81,7 @@
 
                 <t t-if=" i.total_salario > 0 ">
     						  <tr>
+                    <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
@@ -90,7 +95,8 @@
 							</t>
             </t>
             <tr>
-            	<th> Total </th>
+
+            	<th colspan="2"> Total </th>
             	<th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_salario_base))"/> </th>
               <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_ausencias))"/> </th>
               <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_feriados))"/> </th>
@@ -120,9 +126,10 @@
 
           <table>
             <tr> 
-              <th style="text-align:center" colspan="8"> Planilla Parqueo <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+              <th style="text-align:center" colspan="9"> Planilla Parqueo <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
             </tr>
             <tr> 
+              <th> Sobre </th>
               <th> Empleado</th>
               <th> Salario Base</th>
               <th> Ausencias </th>
@@ -134,6 +141,8 @@
             </tr>
             <t t-foreach="o.calculo_salario_ids" t-as="i">
               <t t-if="i.empleado_id.department_id.name == 'Parqueo' ">
+
+                <t t-set="sobre" t-value="sobre + 1"/>
                 <t t-set="parqueo_total_salario_base" t-value="parqueo_total_salario_base + i.empleado_id.salario"/>
                 <t t-set="parqueo_total_ccss" t-value="parqueo_total_ccss + i.empleado_id.ccss"/>
                 <t t-set="parqueo_total_rebajos" t-value="parqueo_total_rebajos + i.rebajos"/>
@@ -143,6 +152,7 @@
 
                 <t t-if=" i.total_salario > 0 ">
                   <tr>
+                    <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
@@ -156,7 +166,7 @@
               </t>
             </t>
             <tr>
-              <th> Total </th>
+              <th colspan="2"> Total </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_salario_base))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_ausencias))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_feriados))"/> </th>
@@ -171,9 +181,10 @@
 
           <table>
             <tr> 
-              <th style="text-align:center" colspan="8"> Planilla San Miguel <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
+              <th style="text-align:center" colspan="9"> Planilla San Miguel <t t-esc="o.fecha_inicio"/> al <t t-esc="o.fecha_final"/> </th> 
             </tr>
             <tr> 
+              <th> Sobre </th>
               <th> Empleado</th>
               <th> Salario Base</th>
               <th> Ausencias </th>
@@ -184,7 +195,9 @@
               <th> Salario Total</th>
             </tr>
             <t t-foreach="o.calculo_salario_ids" t-as="i">
+
               <t t-if="i.empleado_id.department_id.name == 'San Miguel' ">
+                <t t-set="sobre" t-value="sobre + 1"/>
                 <t t-set="sm_total_salario_base" t-value="sm_total_salario_base + i.empleado_id.salario"/>
                 <t t-set="sm_total_ccss" t-value="sm_total_ccss + i.empleado_id.ccss"/>
                 <t t-set="sm_total_rebajos" t-value="sm_total_rebajos + i.rebajos"/>
@@ -194,6 +207,7 @@
 
                 <t t-if=" i.total_salario > 0 ">
                   <tr>
+                    <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left" > <t t-esc="i.empleado_id.name"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.salario))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
@@ -207,7 +221,7 @@
               </t>
             </t>
             <tr>
-              <th> Total </th>
+              <th colspan="2"> Total </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_salario_base))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_ausencias))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_feriados))"/> </th>

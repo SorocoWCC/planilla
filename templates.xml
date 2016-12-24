@@ -100,6 +100,25 @@
 			</field>
 		</record>
 
+<!--Group by and filter by-->
+	<record id="planilla_search_view" model="ir.ui.view">
+		<field name="name">Filtros y Grupos Planillas</field>
+		<field name="model">planilla</field>
+		<field name="arch" type="xml">
+			<search string="Planillas">
+			<group string="Agrupar Por">
+			<filter string="Fecha Inicio"  icon="terp-go-today" context="{'group_by':'fecha_inicio'}" help="Agrupar por Fecha"/>
+			<filter string="Fecha Final" icon="terp-go-today" context="{'group_by':'fecha_final'}" help="Agrupar por Cajero"/>
+			<filter string="Estado" icon="terp-go-today" context="{'group_by':'state'}" help="Agrupar por Estado"/>
+			</group>
+			<group string="Filtrar Por">
+			<filter string="Fecha Inicio"  icon="terp-go-today" context="{'filter_by':'fecha_inicio'}" help="Agrupar por Fecha"/>
+			<filter string="fecha_final" icon="terp-go-today" context="{'filter_by':'fecha_final'}" help="Agrupar por Cajero"/>
+			<filter string="Estado" icon="terp-go-today" context="{'filter_by':'state'}" help="Agrupar por Estado"/>
+			</group>
+			</search>
+		</field>
+	</record>
 
      <!-- Menus -->
      <menuitem action="planilla_action" id="menu_planilla_tree" name="Planillas" parent="hr.menu_hr_main" sequence="9"/>
