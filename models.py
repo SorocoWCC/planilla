@@ -142,7 +142,8 @@ class planillla(models.Model):
     def action_generar_lista(self):
    		res= self.env['hr.employee'].search([('active', '=', 'True')])
    		for employee in res:
-				self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'planilla_id': str(self.id) })
+   				if employee.department_id.name == "San Miguel" or employee.department_id.name == "Alajuelita" or employee.department_id.name == "Parqueo" : 
+					self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'planilla_id': str(self.id) })
    		self.state= 'progress'	
 
 # Cambiar el estado de la planilla a cerrado y procesar abonos a prestamos
@@ -154,7 +155,6 @@ class planillla(models.Model):
    		for employee in self.calculo_salario_ids:
    			# valida si hay un abono al prestamos en la planilla
    			if employee.prestamos > 0 :
-   				print 'Empleado ->' + str( employee.empleado_id.name ) 
    				# Busca si el empleado tiene un prestamo activo
    				for prestamo in lista_prestamos :
    					if employee.empleado_id == prestamo.res_employee_id :
