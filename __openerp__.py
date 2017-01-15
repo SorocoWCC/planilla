@@ -28,7 +28,9 @@
         'planillas_report.xml',       
         'views/report_lista.xml',
         'views/report_planilla.xml',
-        'views/report_firmas.xml'
+        'views/report_firmas.xml',
+        'views/report_sobres.xml',
+        'views/report_abonos.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
