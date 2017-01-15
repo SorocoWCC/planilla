@@ -29,6 +29,23 @@
             file="Firmas" 
         />  
 
+        <report 
+            string="Sobres" 
+            id="custom_report_sobres" 
+            model="planilla" 
+            report_type="qweb-pdf"
+            name="planillas.report_sobres_document" 
+            file="Sobres" 
+        />
+
+        <report 
+            string="Abonos Prestamos" 
+            id="custom_report_abonos" 
+            model="planilla" 
+            report_type="qweb-pdf"
+            name="planillas.report_abonos_document" 
+            file="Abonos Prestamos" 
+        />
         <record id="paperformat_lowmargin" model="report.paperformat">
             <field name="name">European A4 low margin</field>
             <field name="default" eval="True" />
@@ -54,6 +71,14 @@
         </record>
       
         <record id="planillas.custom_report_planilla" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
+        </record>
+
+        <record id="planillas.custom_report_sobres" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
+        </record>
+
+        <record id="planillas.custom_report_abonos" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
         </record>
 

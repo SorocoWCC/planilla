@@ -9,7 +9,7 @@
             table, td, th {
               border: 1px solid black; 
               text-align:center;
-              font-size: 12px; 
+              font-size: 14px; 
             }
 
             table {
@@ -20,7 +20,7 @@
             td {
               vertical-align: left;
               width: 50%;
-              font-size: 12px; 
+              font-size: 14px; 
             }
           </style>
         

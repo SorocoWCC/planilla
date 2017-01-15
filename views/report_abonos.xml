@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_abonos_document">
+      <t t-foreach="docs" t-as="o">
+        <div class="page">
+
+          <!-- Sobres Alajuelita -->
+          <t t-foreach="o.calculo_salario_ids" t-as="i">
+
+            <t t-if=" i.prestamos > 0 ">
+
+                  RECICLADORA SAN MIGUEL <br/>
+                  San Jose - Costa Rica <br/>
+                  Tel: 2277-1833 <br/>
+                  www.recicladorasanmiguel.com <br/>
+                  ------------------------- <br/>
+                  Recibo de Dinero <br/>
+                  Fecha del Abono: <br/>
+                  <span t-field="o.fecha_final"/> <br/>  
+                  Monto del Prestamo: <br/>
+                   ₡ <t t-esc="'{0:,.2f}'.format(int(i.monto_prestamo))"/> <br/>   
+                  ------------------------- <br/> 
+                  Recibimos de: <br/>
+                  <t t-esc="i.empleado_id.name"/> <br/>      
+                  La suma de: <br/>
+                  ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> <br/>   
+                  Por concepto de: <br/>
+                  Abono al prestamo <br/>
+                  ********************* <br/>
+                  Saldo: <br/>
+                  <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/> </td> <br/>  
+                  ********************* <br/>
+
+
+                  ________________ <br/>
+                  Firma Empleado <br/>
+
+                  <p style="page-break-after:always;">   </p>
+            </t>  
+          </t>
+
+        </div> 
+      </t>
+    </template>
+  </data>
+</openerp>
+
