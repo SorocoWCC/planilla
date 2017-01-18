@@ -14,7 +14,7 @@ class employee(models.Model):
 class calculo_salario(models.Model):
     _name = "calculo_salario"
     total_salario = fields.Float(compute='_calcular_salario', store=True, string="Total")
-    ccss = fields.Float('CCSS', readonly=True)
+    ccss = fields.Float(compute='_action_ccss', string='CCSS', readonly=True)
     rebajos = fields.Float(string='Rebajos')
     ausencias = fields.Float(string='Ausencias')
     adelantos = fields.Float(string='Adelantos')
@@ -35,6 +35,11 @@ class calculo_salario(models.Model):
     'cajero_id': lambda self, cr, uid, ctx=None: uid
 
     }
+#  Asigna el monto de la ccss
+    @api.one
+    @api.depends('empleado_id')
+    def _action_ccss(self):
+		self.ccss = float(self.empleado_id.ccss)
 
 # Calculo del Salario
     @api.one
@@ -95,6 +100,7 @@ class planillla(models.Model):
     _name = "planilla"
     _description = "Planilla"
     state = fields.Selection ([('new','Nuevo'), ('progress', 'En Proceso'), ('closed','Cerrado')], string='state', readonly=True)
+    name = fields.Char(compute='_action_name', string='Nombre', readonly=True)
     total_planilla_sanmiguel = fields.Float(compute='_calcular_planillas', store=True, string="Planilla San Miguel")
     total_planilla_parqueo = fields.Float(compute='_calcular_planillas', store=True, string="Planilla Parqueo")
     total_planilla_alajuelita = fields.Float(compute='_calcular_planillas', store=True, string="Planilla Alajuelita")
@@ -108,6 +114,11 @@ class planillla(models.Model):
     'fecha_inicio': fields.Date.today(),
     'state': 'new'
     }
+
+#  Asigna el nombre de la planilla
+    @api.one
+    def _action_name(self):
+		self.name = "Planilla " + str(self.fecha_inicio) + " al " + str(self.fecha_final)
 
  	# Metodo: Calculo de Planillas
     @api.one
