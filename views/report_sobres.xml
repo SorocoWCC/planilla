@@ -36,7 +36,7 @@
           <t t-set="sobre" t-value="0"/>
 
           <!-- Sobres Alajuelita -->
-          <t t-foreach="o.calculo_salario_ids" t-as="i">
+          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
 
             <t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">
               <t t-set="sobre" t-value="sobre + 1"/>
@@ -50,42 +50,12 @@
                   <tr>  
                     <th> Empleado </th>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
-                  </tr>
-                  <t t-if=" i.ausencias > 0 ">
-                    <tr>  
-                      <th> Ausencias </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.feriados > 0 ">
-                    <tr>  
-                      <th> Feriados </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
-                    </tr> 
-                  </t>
-                  <t t-if=" i.rebajos > 0 ">   
-                    <tr>
-                      <th> Rebajos</th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.adelantos > 0 ">  
-                    <tr>
-                      <th> Adelantos </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
-                    </tr>
-                  </t>
+                  </tr>                  
                   <t t-if=" i.prestamos > 0 ">
                     <tr>
                       <th> Abono Prestamo </th>
                       <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
                     </tr>
-                  </t>
-                  <t t-if=" i.ccss > 0 ">
-                    <tr>
-                      <th> Seguro </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
-                    </tr>  
                   </t>
                   <t t-if=" i.total_salario > 0 ">
                     <tr>  
@@ -106,7 +76,7 @@
           </t>
 
           <!-- Sobres Parqueo -->
-          <t t-foreach="o.calculo_salario_ids" t-as="i">
+          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
 
             <t t-if="i.empleado_id.department_id.name == 'Parqueo' ">
               <t t-set="sobre" t-value="sobre + 1"/>
@@ -121,41 +91,11 @@
                     <th> Empleado </th>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
                   </tr>
-                  <t t-if=" i.ausencias > 0 ">
-                    <tr>  
-                      <th> Ausencias </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.feriados > 0 ">
-                    <tr>  
-                      <th> Feriados </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
-                    </tr> 
-                  </t>
-                  <t t-if=" i.rebajos > 0 ">   
-                    <tr>
-                      <th> Rebajos</th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.adelantos > 0 ">  
-                    <tr>
-                      <th> Adelantos </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
-                    </tr>
-                  </t>
                   <t t-if=" i.prestamos > 0 ">
                     <tr>
                       <th> Abono Prestamo </th>
                       <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
                     </tr>
-                  </t>
-                  <t t-if=" i.ccss > 0 ">
-                    <tr>
-                      <th> Seguro </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
-                    </tr>  
                   </t>
                   <t t-if=" i.total_salario > 0 ">
                     <tr>  
@@ -176,7 +116,7 @@
           </t>
 
           <!-- Sobres San Miguel -->
-          <t t-foreach="o.calculo_salario_ids" t-as="i">
+          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
 
             <t t-if="i.empleado_id.department_id.name == 'San Miguel' ">
               <t t-set="sobre" t-value="sobre + 1"/>
@@ -191,41 +131,11 @@
                     <th> Empleado </th>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
                   </tr>
-                  <t t-if=" i.ausencias > 0 ">
-                    <tr>  
-                      <th> Ausencias </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.feriados > 0 ">
-                    <tr>  
-                      <th> Feriados </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
-                    </tr> 
-                  </t>
-                  <t t-if=" i.rebajos > 0 ">   
-                    <tr>
-                      <th> Rebajos</th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.adelantos > 0 ">  
-                    <tr>
-                      <th> Adelantos </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
-                    </tr>
-                  </t>
                   <t t-if=" i.prestamos > 0 ">
                     <tr>
                       <th> Abono Prestamo </th>
                       <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
                     </tr>
-                  </t>
-                  <t t-if=" i.ccss > 0 ">
-                    <tr>
-                      <th> Seguro </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
-                    </tr>  
                   </t>
                   <t t-if=" i.total_salario > 0 ">
                     <tr>  

@@ -67,11 +67,10 @@
               <th> Seguro </th>
               <th> Salario Total </th>
             </tr>
-            <t t-foreach="o.calculo_salario_ids" t-as="i">
+            <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
 
             	<t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">
-
-                <t t-set="sobre" t-value="sobre + 1"/>
+                
             		<t t-set="total_salario_base" t-value="total_salario_base + i.empleado_id.salario"/>
             		<t t-set="total_ccss" t-value="total_ccss + i.empleado_id.ccss"/>
             		<t t-set="total_rebajos" t-value="total_rebajos + i.rebajos"/>
@@ -80,6 +79,7 @@
                 <t t-set="total_adelantos" t-value="total_adelantos + i.adelantos"/>
 
                 <t t-if=" i.total_salario > 0 ">
+                  <t t-set="sobre" t-value="sobre + 1"/>
     						  <tr>
                     <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
@@ -139,10 +139,9 @@
               <th> Seguro</th>
               <th> Salario Total</th>
             </tr>
-            <t t-foreach="o.calculo_salario_ids" t-as="i">
+            <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
               <t t-if="i.empleado_id.department_id.name == 'Parqueo' ">
-
-                <t t-set="sobre" t-value="sobre + 1"/>
+                
                 <t t-set="parqueo_total_salario_base" t-value="parqueo_total_salario_base + i.empleado_id.salario"/>
                 <t t-set="parqueo_total_ccss" t-value="parqueo_total_ccss + i.empleado_id.ccss"/>
                 <t t-set="parqueo_total_rebajos" t-value="parqueo_total_rebajos + i.rebajos"/>
@@ -151,6 +150,7 @@
                 <t t-set="parqueo_total_adelantos" t-value="parqueo_total_adelantos + i.adelantos"/>
 
                 <t t-if=" i.total_salario > 0 ">
+                  <t t-set="sobre" t-value="sobre + 1"/>
                   <tr>
                     <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
@@ -194,7 +194,7 @@
               <th> Seguro</th>
               <th> Salario Total</th>
             </tr>
-            <t t-foreach="o.calculo_salario_ids" t-as="i">
+            <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
 
               <t t-if="i.empleado_id.department_id.name == 'San Miguel' ">
                 <t t-set="sobre" t-value="sobre + 1"/>
@@ -206,6 +206,7 @@
                 <t t-set="sm_total_adelantos" t-value="sm_total_adelantos + i.adelantos"/>
 
                 <t t-if=" i.total_salario > 0 ">
+                  <t t-set="sobre" t-value="sobre + 1"/>
                   <tr>
                     <td> <t t-esc="sobre"/> </td>
                     <td style="text-align:left" > <t t-esc="i.empleado_id.name"/> </td>
@@ -249,7 +250,7 @@
               <th> Abono </th>
               <th> Saldo </th>
             </tr>
-            <t t-foreach="o.calculo_salario_ids" t-as="i">
+            <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
               <t t-if="i.saldo_prestamo > 0 ">
                 <t t-set="total_prestamos" t-value="total_prestamos + i.monto_prestamo"/>
                 <t t-set="total_abonos" t-value="total_abonos + i.prestamos"/>
