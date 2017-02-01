@@ -30,7 +30,8 @@
         'views/report_planilla.xml',
         'views/report_firmas.xml',
         'views/report_sobres.xml',
-        'views/report_abonos.xml'
+        'views/report_abonos.xml',
+        'views/report_finiquito_laboral.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

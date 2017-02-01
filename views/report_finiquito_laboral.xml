@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_finiquito_laboral_document">
+      <t t-foreach="docs" t-as="o">
+        <div class="page">
+
+          <style>
+
+          </style>
+
+<p style="text-align: center; font-size:16px;"><strong>FINIQUITO LABORAL</strong></p>
+
+<p style="font-size:16px;">Yo <strong>  <span t-field="o.empleado_id.name"/> </strong>, Identificación número: <strong><span t-field="o.empleado_id.identification_id"/> </strong> de manera expresa declaro:</p>
+
+<p style="font-size:16px;">Primero: Acepto y manifiesto que trabaje para el Señor Gerardo Castro Campos en la empresa "Recicladora San Miguel" desde el día <span t-field="o.fecha_inicio"/> y que lo hice hasta el día <span t-field="o.fecha_final"/> cuando mi relación laboral con dicha empresa finalizo.</p>
+
+<p style="font-size:16px;">Segundo: Que la empresa Recicladora San Miguel me ha cancelado la suma de ₡  <span t-field="o.total"/> que comprende y cubre el pago total, completo e integral de mis derechos laborales derivados de tal relación de trabajo.</p>
+
+<p style="font-size:16px;"> Tercero: Por recibir en este acto el pago indicado anteriormente declaro en consecuencia que mi ex patrono "Recicladora San Miguel", no me adeuda suma alguna, originada en mi prestación de servicios durante el periodo laboral en el que trabaje para tal empresa y que anteriormente indique de manera precisa y concreta, ni tampoco como consecuencia de la terminación de dicha relación de trabajo en virtud de las razones expuestas.</p>
+
+<p style="font-size:16px;" >Por tal motivo afirmo y declaro no tener al día de hoy contra dicha compañía reclamo laboral adicional alguno referido a los extremos de las prestaciones legales correspondientes.</p>
+
+<p style="font-size:16px;">Cuarto: Expreso para terminar que entiendo, acepto y comprendo que el presente finiquito laboral es irrevocable, final y definitivo de manera inmediata sin ningún tipo de reparos u objetos.</p>
+
+<p><br />__________________________</p>
+<p style="font-size:16px;"><span t-field="o.empleado_id.name"/></p>
+
+         
+
+        </div> 
+      </t>
+    </template>
+  </data>
+</openerp>
+

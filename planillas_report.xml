@@ -46,6 +46,17 @@
             name="planillas.report_abonos_document" 
             file="Abonos Prestamos" 
         />
+
+        <report 
+            string="Finiquito Laboral" 
+            id="custom_report_finiquito_laboral" 
+            model="finiquito_laboral" 
+            report_type="qweb-pdf"
+            name="planillas.report_finiquito_laboral_document" 
+            file="Abonos Prestamos" 
+        />
+
+
         <record id="paperformat_lowmargin" model="report.paperformat">
             <field name="name">European A4 low margin</field>
             <field name="default" eval="True" />
@@ -79,6 +90,10 @@
         </record>
 
         <record id="planillas.custom_report_abonos" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
+        </record>
+
+        <record id="planillas.custom_report_finiquito_laboral" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
         </record>
 

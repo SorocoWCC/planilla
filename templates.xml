@@ -13,6 +13,18 @@
 			</field>
 		</record>
 
+		<!--Action Planilla-->
+		<record id="finiquito_laboral_action" model="ir.actions.act_window">
+			<field name="name">Finiquito Laboral</field>
+     	<field name="res_model">finiquito_laboral</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Presione aquí para crear un Finiquito Laboral.</p>
+			</field>
+		</record>
+
+
 		<!-- Inherit Form View  Employee-->
 		<record model="ir.ui.view" id="inherit_form_view_employee">
     	<field name="name">inherit_form_view_employee_planilla</field>
@@ -85,6 +97,37 @@
 			</field>
 		</record>
 
+		<!--Form View Finiquito Laboral-->
+		<record id="finiquito_laboral_form_view" model="ir.ui.view">
+			<field name="name">finiquito_laboral.form.view</field>
+			<field name="view_type">form</field>
+			<field name="model">finiquito_laboral</field>
+			<field name="arch" type="xml">
+				<form string="Finiquito Laboral"  version="7.0">
+					<header>	
+						<button name="action_estado_cerrado" string="Procesar" type="object" attrs="{'invisible': ['|', ('state','=','closed'), ('state','=','cancel')]}" class="oe_highlight" />
+						<button name="action_estado_cancelado" string="Cancelar" type="object" attrs="{'invisible': ['|', ('state','=','closed'), ('state','=','cancel')]}" />
+						<field name="state" widget="statusbar"  statusbar_colors='{"new":"red","closed":"blue"}'/>
+					</header>
+					<sheet string="Finiquito Laboral">
+						<group>			
+							<group >
+								<field  name="empleado_id" attrs="{'readonly': ['|', ('state','=','closed'), ('state','=','cancel')]}"/>
+								<field  name="fecha_inicio" attrs="{'readonly': ['|', ('state','=','closed'), ('state','=','cancel')]}"/>
+								<field  name="fecha_final" attrs="{'readonly': ['|', ('state','=','closed'), ('state','=','cancel')]}"/>
+								<field  name="total" attrs="{'readonly': ['|', ('state','=','closed'), ('state','=','cancel')]}"/>
+							</group>		
+							<group >
+								<field  name="responsable" />
+							</group>	
+						</group>
+
+					</sheet>
+      	</form>
+			</field>
+		</record>
+
+
 		<!--Tree Planilla-->
 		<record id="planilla_tree_view" model="ir.ui.view">
 			<field name="name">planilla_tree_view</field>
@@ -100,7 +143,23 @@
 			</field>
 		</record>
 
-<!--Group by and filter by-->
+		<!--Tree Finiquito Laboral-->
+		<record id="finiquito_laboral_tree_view" model="ir.ui.view">
+			<field name="name">finiquito_laboral_tree_view</field>
+			<field name="view_type">tree</field>
+			<field name="model">finiquito_laboral</field>
+			<field name="arch" type="xml">
+				<tree string="Planilla" colors="blue:state == 'new';blue:state == 'progress';gray:state == 'cancel';black:state in ('closed');">
+					<field name="empleado_id" />
+					<field name="fecha_inicio" />
+					<field name="fecha_final"/>
+					<field name="total"/>
+					<field name="state" string="Estado"/>
+				</tree>
+			</field>
+		</record>
+
+<!--Group by and filter by Planillas-->
 	<record id="planilla_search_view" model="ir.ui.view">
 		<field name="name">Filtros y Grupos Planillas</field>
 		<field name="model">planilla</field>
@@ -120,8 +179,31 @@
 		</field>
 	</record>
 
+
+<!--Group by and filter by Finiquito Laboral-->
+	<record id="planilla_search_view" model="ir.ui.view">
+		<field name="name">Filtros y Grupos Finiquito Laboral</field>
+		<field name="model">finiquito_laboral</field>
+		<field name="arch" type="xml">
+			<search string="Finiquito Laboral">
+			<group string="Agrupar Por">
+			<filter string="Fecha Inicio"  icon="terp-go-today" context="{'group_by':'fecha_inicio'}" help="Agrupar por Fecha Inicio"/>
+			<filter string="Fecha Final" icon="terp-go-today" context="{'group_by':'fecha_final'}" help="Agrupar por Fecha Final"/>
+			<filter string="Estado" icon="terp-go-today" context="{'group_by':'state'}" help="Agrupar por Estado"/>
+			<filter string="Empleado" icon="terp-go-today" context="{'group_by':'empleado_id'}" help="Agrupar Empleado"/>
+			</group>
+			<group string="Filtrar Por">
+			<filter string="Fecha Inicio"  icon="terp-go-today" context="{'filter_by':'fecha_inicio'}" help="Agrupar por Fecha Inicio"/>
+			<filter string="fecha Final" icon="terp-go-today" context="{'filter_by':'fecha_final'}" help="Agrupar por Fecha Final"/>
+			<filter string="Estado" icon="terp-go-today" context="{'filter_by':'state'}" help="Agrupar por Estado"/>
+			<filter string="Empleado" icon="terp-go-today" context="{'filter_by':'empleado_id'}" help="Agrupar por Empleado"/>
+			</group>
+			</search>
+		</field>
+	</record>
+
      <!-- Menus -->
      <menuitem action="planilla_action" id="menu_planilla_tree" name="Planillas" parent="hr.menu_hr_main" sequence="9"/>
-    
+    	<menuitem action="finiquito_laboral_action" id="menu_finiquito_laboral" name="Finiquito Laboral" parent="hr.menu_hr_main" sequence="9"/>
    </data>
 </openerp>

@@ -189,3 +189,36 @@ class planillla(models.Model):
    		#Cierra la planilla					
    		self.state= 'closed'
 
+# --------------------------   FINIQUITO LABORAL ----------------------
+class finiquito_laboral(models.Model):
+    _name = "finiquito_laboral"
+    _description = "Finiquito Laboral"
+    state = fields.Selection ([('new','Nuevo'), ('cancel','Cancelado'), ('closed','Cerrado')], string='state', readonly=True)
+    name = fields.Char( string='Nombre', readonly=True)
+    responsable = fields.Char( string='Responsable', readonly=True)
+    total = fields.Float(store=True, string="Total")
+    fecha_inicio = fields.Date(string='Fecha Inicio', required=True)
+    fecha_final = fields.Date(string='Fecha Final',  required=True)
+    empleado_id= fields.Many2one(comodel_name='hr.employee', string='Empleado', delegate=True, required=True)
+    _defaults = { 
+      'state': 'new'
+    }
+
+# Cambiar el estado de la planilla a cerrado
+    @api.one
+    def action_estado_cerrado(self):
+      self.responsable = str(self.env.user.name)
+      self.state= 'closed'
+
+# Cambiar el estado de la planilla a cancelado
+    @api.one
+    def action_estado_cancelado(self):
+      self.responsable = str(self.env.user.name)  
+      self.state= 'cancel'
+
+
+
+
+
+
+
