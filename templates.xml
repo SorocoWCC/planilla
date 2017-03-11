@@ -36,6 +36,8 @@
 						<group>
 							<field  name="salario"/>
 							<field  name="ccss"/>
+							<field  name="fecha_ultimo_finiquito"/>
+							<field  name="fecha_proximo_finiquito"/>
 						</group>
 					</page>
 				</notebook>
@@ -54,7 +56,7 @@
 						<button name="action_generar_lista" string="Generar Lista" type="object" attrs="{'invisible': ['|', ('state','=','closed'), ('state','=','progress')]}" class="oe_highlight" />
 						<field name="state" widget="statusbar"  statusbar_colors='{"new":"red","closed":"blue"}'/>
 					</header>
-					<sheet string="Cierre de Caja">
+					<sheet  class="oe_form_sheet_width " string="Planilla">
 						<group>			
 							<group >
 								<field  name="fecha_inicio" attrs="{'readonly': ['|', ('state','=','closed')]}"/>
@@ -85,7 +87,7 @@
 			        				<field name="saldo_prestamo" invisible="1"/>
 			        				<field name="monto_prestamo" invisible="1"/>
 			        				<field name="rebajos"/>
-			        				<field name="adelantos"/>
+			        				<field name="bonificaciones"/>
 			        				<field name="prestamos"/>
 			 						<field name="total_salario"/>                                 
   				 				</tree>

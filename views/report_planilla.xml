@@ -49,7 +49,7 @@
   				<t t-set="total_salario_base" t-value="0"/>
           <t t-set="total_ausencias" t-value="0"/>
           <t t-set="total_feriados" t-value="0"/>
-          <t t-set="total_adelantos" t-value="0"/>
+          <t t-set="total_bonificaciones" t-value="0"/>
           <t t-set="sobre" t-value="0"/>
 
           <table>
@@ -63,7 +63,7 @@
               <th> Ausencias </th>
               <th> Feriados </th>
               <th> Rebajos</th>
-              <th> Adelantos </th>
+              <th> Bonificaciones </th>
               <th> Seguro </th>
               <th> Salario Total </th>
             </tr>
@@ -76,7 +76,7 @@
             		<t t-set="total_rebajos" t-value="total_rebajos + i.rebajos"/>
                 <t t-set="total_ausencias" t-value="total_ausencias + i.ausencias"/>
                 <t t-set="total_feriados" t-value="total_feriados + i.feriados"/>
-                <t t-set="total_adelantos" t-value="total_adelantos + i.adelantos"/>
+                <t t-set="total_bonificaciones" t-value="total_bonificaciones + i.bonificaciones"/>
 
                 <t t-if=" i.total_salario > 0 ">
                   <t t-set="sobre" t-value="sobre + 1"/>
@@ -87,7 +87,7 @@
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.bonificaciones))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
                   </tr>
@@ -101,7 +101,7 @@
               <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_ausencias))"/> </th>
               <th>  ₡ <t t-esc="'{0:,.2f}'.format(int(total_feriados))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_rebajos))"/> </th>
-              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_adelantos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_bonificaciones))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(total_ccss))"/> </th>
             	<th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_alajuelita))"/> </th>
             </tr>
@@ -115,14 +115,14 @@
           <t t-set="parqueo_total_salario_base" t-value="0"/>
           <t t-set="parqueo_total_ausencias" t-value="0"/>
           <t t-set="parqueo_total_feriados" t-value="0"/>
-          <t t-set="parqueo_total_adelantos" t-value="0"/>
+          <t t-set="parqueo_total_bonificaciones" t-value="0"/>
 
           <t t-set="sm_total_rebajos" t-value="0"/>
           <t t-set="sm_total_ccss" t-value="0"/>
           <t t-set="sm_total_salario_base" t-value="0"/>
           <t t-set="sm_total_ausencias" t-value="0"/>
           <t t-set="sm_total_feriados" t-value="0"/>
-          <t t-set="sm_total_adelantos" t-value="0"/>
+          <t t-set="sm_total_bonificaciones" t-value="0"/>
 
           <table>
             <tr> 
@@ -135,7 +135,7 @@
               <th> Ausencias </th>
               <th> Feriados </th>
               <th> Rebajos</th>
-              <th> Adelantos </th>
+              <th> Bonificaciones </th>
               <th> Seguro</th>
               <th> Salario Total</th>
             </tr>
@@ -147,7 +147,7 @@
                 <t t-set="parqueo_total_rebajos" t-value="parqueo_total_rebajos + i.rebajos"/>
                 <t t-set="parqueo_total_ausencias" t-value="parqueo_total_ausencias + i.ausencias"/>
                 <t t-set="parqueo_total_feriados" t-value="parqueo_total_feriados + i.feriados"/>
-                <t t-set="parqueo_total_adelantos" t-value="parqueo_total_adelantos + i.adelantos"/>
+                <t t-set="parqueo_total_bonificaciones" t-value="parqueo_total_bonificaciones + i.bonificaciones"/>
 
                 <t t-if=" i.total_salario > 0 ">
                   <t t-set="sobre" t-value="sobre + 1"/>
@@ -158,7 +158,7 @@
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.bonificaciones))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
                   </tr>
@@ -171,7 +171,7 @@
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_ausencias))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_feriados))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_rebajos))"/> </th>
-              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_adelantos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_bonificaciones))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(parqueo_total_ccss))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_parqueo))"/> </th>
             </tr>
@@ -190,7 +190,7 @@
               <th> Ausencias </th>
               <th> Feriados </th>
               <th> Rebajos</th>
-              <th> Adelantos </th>
+              <th> Bonificaciones </th>
               <th> Seguro</th>
               <th> Salario Total</th>
             </tr>
@@ -202,7 +202,7 @@
                 <t t-set="sm_total_rebajos" t-value="sm_total_rebajos + i.rebajos"/>
                 <t t-set="sm_total_ausencias" t-value="sm_total_ausencias + i.ausencias"/>
                 <t t-set="sm_total_feriados" t-value="sm_total_feriados + i.feriados"/>
-                <t t-set="sm_total_adelantos" t-value="sm_total_adelantos + i.adelantos"/>
+                <t t-set="sm_total_bonificaciones" t-value="sm_total_bonificaciones + i.bonificaciones"/>
 
                 <t t-if=" i.total_salario > 0 ">
                   <t t-set="sobre" t-value="sobre + 1"/>
@@ -213,7 +213,7 @@
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ausencias))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.feriados))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.rebajos))"/> </td>
-                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.adelantos))"/> </td>
+                    <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.bonificaciones))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.ccss))"/> </td>
                     <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </td>
                   </tr>
@@ -226,9 +226,9 @@
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_ausencias))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_feriados))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_rebajos))"/> </th>
-              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_adelantos))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_bonificaciones))"/> </th>
               <th> ₡ <t t-esc="'{0:,.2f}'.format(int(sm_total_ccss))"/> </th>
-              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_parqueo))"/> </th>
+              <th> ₡ <t t-esc="'{0:,.2f}'.format(int(o.total_planilla_sanmiguel))"/> </th>
             </tr>
           </table>
 

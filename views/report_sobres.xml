@@ -14,17 +14,17 @@
 
             table {
               border-collapse: collapse;
-              width: 30%;
+              width: 40%;
             }
 
             td{
               vertical-align: center;
-              font-size: 12px; 
+              font-size: 14px; 
               width: 20%;
             }
             th{
               vertical-align: center;
-              font-size: 12px; 
+              font-size: 14px; 
               width: 10%;
             }
           </style>

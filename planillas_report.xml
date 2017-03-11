@@ -93,9 +93,5 @@
             <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
         </record>
 
-        <record id="planillas.custom_report_finiquito_laboral" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
-
     </data>
 </openerp>

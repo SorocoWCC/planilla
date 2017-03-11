@@ -20,7 +20,6 @@
 
     # any module necessary for this one to work correctly
     'depends': ['hr', 'base', 'report'],
-
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',

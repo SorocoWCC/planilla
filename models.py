@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
  
 from openerp import models, fields, api
+from openerp import api
 from openerp.exceptions import Warning
+import datetime
 
 # Clase Heredada - Empleado
 class employee(models.Model):
@@ -9,6 +11,8 @@ class employee(models.Model):
     _inherit = 'hr.employee'
     salario = fields.Float(string='Salario Base')
     ccss = fields.Float(string='CCSS')
+    fecha_ultimo_finiquito = fields.Date(string='Último Finiquito', readonly=True)
+    fecha_proximo_finiquito = fields.Date(string='Próximo Finiquito')
 
 # Clase Calculo Salario
 class calculo_salario(models.Model):
@@ -17,7 +21,7 @@ class calculo_salario(models.Model):
     ccss = fields.Float(compute='_action_ccss', string='CCSS', readonly=True)
     rebajos = fields.Float(string='Rebajos')
     ausencias = fields.Float(string='Ausencias')
-    adelantos = fields.Float(string='Adelantos')
+    bonificaciones = fields.Float(string='Bonificación')
     feriados = fields.Float(string='Feriados')
     prestamos = fields.Float(string='Prestamos')
     saldo_prestamo = fields.Float(string='Saldo Prestamos')
@@ -43,7 +47,7 @@ class calculo_salario(models.Model):
 
 # Calculo del Salario
     @api.one
-    @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'empleado_id', 'rebajos', 'adelantos', 'prestamos')
+    @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'empleado_id', 'rebajos', 'bonificaciones', 'prestamos')
     def _calcular_salario(self):
 			ausencias= 0
 			feriados = 0
@@ -51,7 +55,7 @@ class calculo_salario(models.Model):
 			dias_laborados= float(self.lunes) + float(self.martes) + float(self.miercoles) + float(self.jueves) + float(self.viernes) + float(self.sabado)
 			
 			# Calculo de salarios
-			total= (((salario_diario * dias_laborados) - float(self.empleado_id.ccss) - (float(self.rebajos) + float(self.adelantos) + float(self.prestamos) ) ))
+			total= ((((salario_diario * dias_laborados) + self.bonificaciones )- float(self.empleado_id.ccss) - (float(self.rebajos) + float(self.prestamos) ) ))
 			if total < 0 :
 				self.total_salario= 0
 			else :
@@ -196,18 +200,28 @@ class finiquito_laboral(models.Model):
     state = fields.Selection ([('new','Nuevo'), ('cancel','Cancelado'), ('closed','Cerrado')], string='state', readonly=True)
     name = fields.Char( string='Nombre', readonly=True)
     responsable = fields.Char( string='Responsable', readonly=True)
-    total = fields.Float(store=True, string="Total")
+    total = fields.Float(string='Total',)
     fecha_inicio = fields.Date(string='Fecha Inicio', required=True)
     fecha_final = fields.Date(string='Fecha Final',  required=True)
     empleado_id= fields.Many2one(comodel_name='hr.employee', string='Empleado', delegate=True, required=True)
+
     _defaults = { 
-      'state': 'new'
+      'state': 'new',
     }
+
+# Calcular el monto del finiquito laboral
+    @api.onchange('empleado_id')
+    def _action_calcular_finiquito(self):
+      vacaciones = (((float(self.empleado_id.salario) * 4.33 ) / 30 ) * 3)
+      aguinaldo =  (((float(self.empleado_id.salario) * 4.33 ) / 12 ) * 3)
+      self.total = vacaciones + aguinaldo
 
 # Cambiar el estado de la planilla a cerrado
     @api.one
     def action_estado_cerrado(self):
       self.responsable = str(self.env.user.name)
+      self.empleado_id.fecha_ultimo_finiquito = self.fecha_final
+      self.empleado_id.fecha_proximo_finiquito = str(datetime.datetime.strptime(self.fecha_final, '%Y-%m-%d') + datetime.timedelta(days=91) )
       self.state= 'closed'
 
 # Cambiar el estado de la planilla a cancelado
@@ -215,8 +229,6 @@ class finiquito_laboral(models.Model):
     def action_estado_cancelado(self):
       self.responsable = str(self.env.user.name)  
       self.state= 'cancel'
-
-
 
 
 
