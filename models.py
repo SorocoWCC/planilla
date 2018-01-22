@@ -103,6 +103,7 @@ class calculo_salario(models.Model):
 class planillla(models.Model):
     _name = "planilla"
     _description = "Planilla"
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     state = fields.Selection ([('new','Nuevo'), ('progress', 'En Proceso'), ('closed','Cerrado')], string='state', readonly=True)
     name = fields.Char(compute='_action_name', string='Nombre', readonly=True)
     total_planilla_sanmiguel = fields.Float(compute='_calcular_planillas', store=True, string="Planilla San Miguel")
@@ -230,7 +231,7 @@ class finiquito_laboral(models.Model):
       self.responsable = str(self.env.user.name)  
       self.state= 'cancel'
 
-
+# --------------------------   PLANILLAS POR PRODUCCION ----------------------
 
 
 

@@ -107,9 +107,9 @@
                                         <field name="feriados" invisible="1" />
                                         <field name="saldo_prestamo" invisible="1" />
                                         <field name="monto_prestamo" invisible="1" />
-                                        <field name="rebajos" />
-                                        <field name="bonificaciones" />
-                                        <field name="prestamos" />
+                                        <field name="rebajos" sum="Rebajos"/>
+                                        <field name="bonificaciones" sum="Bonificación"/>
+                                        <field name="prestamos" sum="Prestamos"/>
                                         <field name="total_salario" />
                                     </tree>
                                 </field>
@@ -117,6 +117,10 @@
                         </notebook>
                     </sheet>
                 </form>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </field>
         </record>
         <!--Form View Finiquito Laboral-->
@@ -216,9 +220,13 @@
                 </search>
             </field>
         </record>
+
         <!-- Menus -->
         <menuitem action="planilla_action" id="menu_planilla_tree" name="Planillas" parent="hr.menu_hr_main" sequence="9" />
         <menuitem action="finiquito_laboral_action" id="menu_finiquito_laboral" name="Finiquito Laboral" parent="hr.menu_hr_main" sequence="9" />
+        <menuitem action="finiquito_laboral_action" id="menu_planillas_produccion" name="Planillas por Servicios" parent="hr.menu_hr_main" sequence="9" />
+
+ <menuitem name="Servicios Produccion" id="asdasdm_case_job_req_main" parent="hr.menu_hr_root" />
     </data>
 </openerp>
 
