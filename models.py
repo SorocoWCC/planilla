@@ -173,39 +173,42 @@ class planillla(models.Model):
           abono_prestamo = 0
         if employee.department_id.name == "San Miguel" or employee.department_id.name == "Alajuelita" or employee.department_id.name == "Parqueo" : 
           self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'prestamos': abono_prestamo,  'planilla_id': str(self.id) })
-      #self.state= 'progress'	
+      self.state= 'progress'	
 
 # Cambiar el estado de la planilla a cerrado y procesar abonos a prestamos
     @api.one
     def action_estado_planilla(self): 		
-   		lista_prestamos= self.env['empleado.allowance'].search([('state', '=', 'new')])
-   		# Notas para incluir en el detalle del abono
-   		notas = 'Planilla del ' + str(self.fecha_inicio) + ' al ' + str(self.fecha_final)
-   		for employee in self.calculo_salario_ids:
-   			# valida si hay un abono al prestamos en la planilla
-   			if employee.prestamos > 0 :
-   				# Busca si el empleado tiene un prestamo activo
-   				for prestamo in lista_prestamos :
-   					if employee.empleado_id == prestamo.res_employee_id :
-					# Valida si tiene el salario suficiente para abonar al prestamo
-						if employee.total_salario > 0 :
-							# Valida si todavia hay saldo en el prestamo antes de hacer el abono
-							if prestamo.saldo >= employee.prestamos :
-								# Crea el abono al prestamos
-								prestamo.abono_ids.create({'libro_id': str(prestamo.id), 'monto': float(employee.prestamos), 'notas': str(notas) })
-							else :
-								raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " El abono al prestamo excede su saldo.")	
-   						else :
-   							raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " No tiene salario sufuciente para aplicar un abono al prestamo")	
+      lista_prestamos= self.env['empleado.allowance'].search([('state', '=', 'new')])
+      # Notas para incluir en el detalle del abono
+      notas = 'Planilla del ' + str(self.fecha_inicio) + ' al ' + str(self.fecha_final)
+      for employee in self.calculo_salario_ids:
+        # valida si hay un abono al prestamos en la planilla
+        if employee.prestamos > 0 :
+          # Busca si el empleado tiene un prestamo activo
+          for prestamo in lista_prestamos :
+            if employee.empleado_id == prestamo.res_employee_id :
+            # Valida si tiene el salario suficiente para abonar al prestamo
+              if employee.total_salario > 0 :
+            # Valida si todavia hay saldo en el prestamo antes de hacer el abono
+                if prestamo.saldo >= employee.prestamos :
+                  # Crea el abono al prestamos
+                  prestamo.abono_ids.create({'libro_id': str(prestamo.id), 'monto': float(employee.prestamos), 'notas': str(notas) })
+                  # Cierra el prestamo en caso de quedar sin saldo
+                  if prestamo.saldo == 0 :
+                    prestamo.state = "done"
+                else :
+                  raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " El abono al prestamo excede su saldo.")	
+              else :
+                raise Warning ("El Colaborador: " + str(employee.empleado_id.name) + " No tiene salario sufuciente para aplicar un abono al prestamo")	
 
-   		# Estado de los prestamos para mostrar en el reporte de planilla
-   		for employee in self.calculo_salario_ids:
-   		 	for prestamo in lista_prestamos :
-   				if employee.empleado_id == prestamo.res_employee_id :
-   					employee.saldo_prestamo = prestamo.saldo
-   					employee.monto_prestamo = prestamo.total_amortizable
-   		#Cierra la planilla					
-   		self.state= 'closed'
+      # Estado de los prestamos para mostrar en el reporte de planilla
+      for employee in self.calculo_salario_ids:
+        for prestamo in lista_prestamos :
+          if employee.empleado_id == prestamo.res_employee_id :
+            employee.saldo_prestamo = prestamo.saldo
+            employee.monto_prestamo = prestamo.total_amortizable
+      # Cierra la planilla					
+      #self.state= 'closed'
 
 # --------------------------   FINIQUITO LABORAL ----------------------
 class finiquito_laboral(models.Model):
