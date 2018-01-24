@@ -156,11 +156,24 @@ class planillla(models.Model):
 # Generar lista de empleados   
     @api.one
     def action_generar_lista(self):
-   		res= self.env['hr.employee'].search([('active', '=', 'True')])
-   		for employee in res:
-   				if employee.department_id.name == "San Miguel" or employee.department_id.name == "Alajuelita" or employee.department_id.name == "Parqueo" : 
-					self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'planilla_id': str(self.id) })
-   		self.state= 'progress'	
+      res= self.env['hr.employee'].search([('active', '=', 'True')])
+      lista_prestamos= self.env['empleado.allowance'].search([('state', '=', 'new')])
+      lista_empleados_con_prestamos= []
+      abono_prestamo=0
+
+      # Busca los empleados con prestamos
+      for prestamo in lista_prestamos:
+        lista_empleados_con_prestamos.append(str(prestamo.res_employee_id.id))
+
+      # Aplica el abono al prestamo  
+      for employee in res:
+        if str(employee.id) in lista_empleados_con_prestamos :
+          abono_prestamo = 10000
+        else :
+          abono_prestamo = 0
+        if employee.department_id.name == "San Miguel" or employee.department_id.name == "Alajuelita" or employee.department_id.name == "Parqueo" : 
+          self.calculo_salario_ids.create({'empleado_id': str(employee.id), 'ccss': str(employee.ccss), 'rebajos': '0', 'prestamos': abono_prestamo,  'planilla_id': str(self.id) })
+      #self.state= 'progress'	
 
 # Cambiar el estado de la planilla a cerrado y procesar abonos a prestamos
     @api.one

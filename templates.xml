@@ -224,9 +224,6 @@
         <!-- Menus -->
         <menuitem action="planilla_action" id="menu_planilla_tree" name="Planillas" parent="hr.menu_hr_main" sequence="9" />
         <menuitem action="finiquito_laboral_action" id="menu_finiquito_laboral" name="Finiquito Laboral" parent="hr.menu_hr_main" sequence="9" />
-        <menuitem action="finiquito_laboral_action" id="menu_planillas_produccion" name="Planillas por Servicios" parent="hr.menu_hr_main" sequence="9" />
-
- <menuitem name="Servicios Produccion" id="asdasdm_case_job_req_main" parent="hr.menu_hr_root" />
     </data>
 </openerp>
 
