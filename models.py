@@ -208,7 +208,7 @@ class planillla(models.Model):
             employee.saldo_prestamo = prestamo.saldo
             employee.monto_prestamo = prestamo.total_amortizable
       # Cierra la planilla					
-      #self.state= 'closed'
+      self.state= 'closed'
 
 # --------------------------   FINIQUITO LABORAL ----------------------
 class finiquito_laboral(models.Model):
