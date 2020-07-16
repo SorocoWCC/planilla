@@ -3,35 +3,26 @@
     <data>
 
         <report 
-            string="Asistencia" 
-            id="custom_report_lista" 
+            string="Planilla" 
+            id="report_planilla" 
             model="planilla" 
             report_type="qweb-pdf"
-            name="planillas.report_lista_document" 
-            file="Lista de Asistencia" 
+            name="planillas.report_planilla" 
+            file="Planilla" 
         />
 
         <report 
-            string="Planilla" 
-            id="custom_report_planilla" 
+            string="Asistencia" 
+            id="report_asistencia" 
             model="planilla" 
             report_type="qweb-pdf"
-            name="planillas.report_planilla_document" 
-            file="Planilla" 
-            attachment_use="False"
+            name="planillas.report_asistencia_document" 
+            file="Asistencia" 
         />
-        <report 
-            string="Firmas" 
-            id="custom_report_firmas" 
-            model="planilla" 
-            report_type="qweb-pdf"
-            name="planillas.report_firmas_document" 
-            file="Firmas" 
-        />  
 
         <report 
             string="Sobres" 
-            id="custom_report_sobres" 
+            id="report_sobres" 
             model="planilla" 
             report_type="qweb-pdf"
             name="planillas.report_sobres_document" 
@@ -39,59 +30,13 @@
         />
 
         <report 
-            string="Abonos Prestamos" 
-            id="custom_report_abonos" 
+            string="Firmas" 
+            id="report_firmas" 
             model="planilla" 
             report_type="qweb-pdf"
-            name="planillas.report_abonos_document" 
-            file="Abonos Prestamos" 
+            name="planillas.report_firmas_document" 
+            file="Firmas" 
         />
-
-        <report 
-            string="Finiquito Laboral" 
-            id="custom_report_finiquito_laboral" 
-            model="finiquito_laboral" 
-            report_type="qweb-pdf"
-            name="planillas.report_finiquito_laboral_document" 
-            file="Abonos Prestamos" 
-        />
-
-
-        <record id="paperformat_lowmargin" model="report.paperformat">
-            <field name="name">European A4 low margin</field>
-            <field name="default" eval="True" />
-            <field name="format">A4</field>
-            <field name="page_height">0</field>
-            <field name="page_width">0</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">10</field>
-            <field name="margin_bottom">4</field>
-            <field name="margin_left">4</field>
-            <field name="margin_right">4</field>
-            <field name="header_line" eval="False" />
-            <field name="header_spacing">0</field>
-            <field name="dpi">90</field>
-        </record>
-
-        <record id="planillas.custom_report_lista" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
-
-        <record id="planillas.custom_report_firmas" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
-      
-        <record id="planillas.custom_report_planilla" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
-
-        <record id="planillas.custom_report_sobres" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
-
-        <record id="planillas.custom_report_abonos" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="planillas.paperformat_lowmargin" />
-        </record>
 
     </data>
 </openerp>

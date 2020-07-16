@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-  <data>
-    <template id="report_lista_document">
-      <t t-foreach="docs" t-as="o">
+    <data>
+        <template id="report_asistencia_document">
+            <t t-call="web.html_container">
+                <t t-as="o" t-foreach="docs">
         <div class="page">
 
           <style>
@@ -91,8 +92,8 @@
           </table>
           P = Presente, A = Ausente, MD = Medio Día, F = Feriado, N = Nuevo Ingreso
         </div>
-      </t>
-    </template>
-  </data>
+                </t>
+            </t>
+        </template>
+    </data>
 </openerp>
-

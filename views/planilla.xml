@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Action Planilla-->
+    <record id="planilla_action" model="ir.actions.act_window">
+      <field name="name">Planillas</field>
+      <field name="res_model">planilla</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Presione aquí para crear una nueva Planilla.</p>
+      </field>
+    </record>
+    <!-- Vista Formulario Planilla-->
+    <record id="planilla_form_view" model="ir.ui.view">
+      <field name="name">Planillas</field>
+      <field name="view_type">form</field>
+      <field name="model">planilla</field>
+      <field name="arch" type="xml">
+        <form string="Planilla" version="7.0">
+          <header>
+            <button attrs="{'invisible': ['|', ('state','in',['closed', 'progress'])]}" class="oe_highlight" name="action_generar_lista" string="Generar Lista" type="object"/>
+            <button attrs="{'invisible': ['|', ('state','=','closed')]}" class="oe_highlight" name="action_cerrar_planilla" string="Cerrar Planilla" type="object"/>
+            <field name="state" widget="statusbar"/>
+          </header>
+          <sheet string="Planilla">
+            <h1 class="mt0">
+              <div>
+                <field attrs="{'invisible':[('state','in',['new'])]}" class="oe_inline" name="name"/>
+              </div>
+            </h1>
+            <group>
+              <group>
+                <field attrs="{'readonly': ['|', ('state','in',['closed', 'progress'])]}" name="fecha_inicio"/>
+                <field attrs="{'readonly': ['|', ('state','in',['closed', 'progress'])]}" name="fecha_final"/>
+                <field name="total_planilla"/>
+              </group>
+              <group/>
+              <group/>
+            </group>
+            <notebook>
+              <page string="Colaboradores">
+                <field attrs="{'readonly': ['|', ('state','=','closed')]}" colspan="4" name="calculo_salario_ids" nolabel="1" widget="one2many_list">
+                  <tree editable="bottom">
+                    <field name="empleado_id"/>
+                    <field name="lunes"/>
+                    <field name="martes"/>
+                    <field name="miercoles"/>
+                    <field name="jueves"/>
+                    <field name="viernes"/>
+                    <field name="sabado"/>
+                    <field name="ccss"/>
+                    <field invisible="1" name="ausencias"/>
+                    <field invisible="1" name="feriados"/>
+                    <field invisible="1" name="saldo_prestamo"/>
+                    <field invisible="1" name="monto_prestamo"/>
+                    <field name="rebajos" sum="Rebajos"/>
+                    <field name="bonificaciones" sum="Bonificación"/>
+                    <field name="prestamos" sum="Prestamos"/>
+                    <field name="total_salario" sum="Total Salarios"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+            <field groups="base.group_user" name="message_follower_ids" widget="mail_followers"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+    <!--Tree View -->
+    <record id="planilla_tree_view" model="ir.ui.view">
+      <field name="name">cierre.tree.view</field>
+      <field name="view_type">tree</field>
+      <field name="model">planilla</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="state=='progress'" default_order="fecha_inicio desc" string="Planillas">
+          <field name="fecha_inicio"/>
+          <field name="fecha_final"/>
+          <field name="total_planilla"/>
+          <field name="state" string="Estado"/>
+        </tree>
+      </field>
+    </record>
+    <!--Menu-->
+    <menuitem action="planilla_action" id="menu_planillas" name="Planillas" parent="hr.menu_hr_root"/>
+  </data>
+</odoo>

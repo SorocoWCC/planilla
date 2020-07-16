@@ -2,11 +2,10 @@
 <openerp>
   <data>
     <template id="report_sobres_document">
-      <t t-foreach="docs" t-as="o">
-        <div class="page">
-
-          <style>
-            table, td, th {
+      <t t-call="web.html_container">
+        <t t-as="o" t-foreach="docs">
+          <div class="page">
+            <style>table, td, th {
               border: 1px solid black; 
               text-align:center;
               font-size: 12px; 
@@ -28,139 +27,62 @@
               width: 10%;
             }
           </style>
-
-
-          <div  style="height: 40px;"> </div>
-
-          <!-- Variables -->
-          <t t-set="sobre" t-value="0"/>
-
-          <!-- Sobres Alajuelita -->
-          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
-
-            <t t-if="i.empleado_id.department_id.name == 'Alajuelita' ">           
-
-              <t t-if=" i.total_salario > 0 ">
+            <div style="height: 40px;"/>
+            <!-- Variables -->
+            <t t-set="sobre" t-value="0"/>
+            <!-- Sobres Alajuelita -->
+            <t t-as="i" t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)">
+              <t t-if=" i.total_salario &gt;0 ">
                 <t t-set="sobre" t-value="sobre + 1"/>
                 <table>
                   <tr>
-                    <th> Sobre</th>
-                    <td> <t t-esc="sobre"/> </td>
+                    <th>Sobre</th>
+                    <td>
+                      <t t-esc="sobre"/>
+                    </td>
                   </tr>
-                  <tr>  
-                    <th> Empleado </th>
-                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
-                  </tr>                  
-                  <t t-if=" i.prestamos > 0 ">
-                    <tr>
-                      <th> Abono Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
-                    </tr>
-                  </t>
-                  <t t-if=" i.saldo_prestamo > 0 ">  
-                    <tr>  
-                      <th> Saldo Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/> </td>
-                    </tr>
-                  </t>  
-                  <t t-if=" i.total_salario > 0 ">
-                    <tr>  
-                      <th> Salario Total </th>
-                      <td style="font-size:16px"> <b> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </b></td>
-                    </tr>
-                  </t>
-                </table>
-                <p style="page-break-after:always;">   </p>
-              </t>  
-            </t>
-          </t>
-
-          <!-- Sobres Parqueo -->
-          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
-
-            <t t-if="i.empleado_id.department_id.name == 'Parqueo' ">
-              
-              <t t-if=" i.total_salario > 0 ">
-                <t t-set="sobre" t-value="sobre + 1"/>
-                <table>
                   <tr>
-                    <th> Sobre</th>
-                    <td> <t t-esc="sobre"/> </td>
+                    <th>Empleado </th>
+                    <td style="text-align:left">
+                      <t t-esc="i.empleado_id.name"/>
+                    </td>
                   </tr>
-                  <tr>  
-                    <th> Empleado </th>
-                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
-                  </tr>
-                  <t t-if=" i.prestamos > 0 ">
+                  <t t-if=" i.prestamos &gt;0 ">
                     <tr>
-                      <th> Abono Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
+                      <th>Abono Prestamo </th>
+                      <td>₡ 
+                        
+                          
+                        <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/></td>
                     </tr>
                   </t>
-                  <t t-if=" i.saldo_prestamo > 0 ">  
-                    <tr>  
-                      <th> Saldo Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/> </td>
+                  <t t-if=" i.saldo_prestamo &gt;0 ">
+                    <tr>
+                      <th>Saldo Prestamo </th>
+                      <td>₡ 
+                        
+                          
+                        <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/></td>
                     </tr>
-                  </t>  
-                  <t t-if=" i.total_salario > 0 ">
-                    <tr>  
-                      <th> Salario Total </th>
-                      <td style="font-size:16px"> <b> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </b></td>
+                  </t>
+                  <t t-if=" i.total_salario &gt;0 ">
+                    <tr>
+                      <th>Salario Total </th>
+                      <td style="font-size:16px">
+                        <b>₡ 
+                          
+                            
+                          <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/></b>
+                      </td>
                     </tr>
                   </t>
                 </table>
-                <p style="page-break-after:always;">   </p>
-              </t>  
+                <p style="page-break-after:always;"/>
+              </t>
             </t>
-          </t>
-
-          <!-- Sobres San Miguel -->
-          <t t-foreach="o.calculo_salario_ids.sorted(key=lambda b: b.empleado_id.name)" t-as="i">
-
-            <t t-if="i.empleado_id.department_id.name == 'San Miguel' ">
-              
-              <t t-if=" i.total_salario > 0 ">
-                <t t-set="sobre" t-value="sobre + 1"/>
-                <table>
-                  <tr>
-                    <th> Sobre</th>
-                    <td> <t t-esc="sobre"/> </td>
-                  </tr>
-                  <tr>  
-                    <th> Empleado </th>
-                    <td style="text-align:left"> <t t-esc="i.empleado_id.name"/> </td>
-                  </tr>
-                  <t t-if=" i.prestamos > 0 ">
-                    <tr>
-                      <th> Abono Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.prestamos))"/> </td>
-                    </tr>
-                  </t>
-                   <t t-if=" i.saldo_prestamo > 0 ">  
-                    <tr>  
-                      <th> Saldo Prestamo </th>
-                      <td> ₡ <t t-esc="'{0:,.2f}'.format(int(i.saldo_prestamo))"/> </td>
-                    </tr>
-                  </t>  
-                  <t t-if=" i.total_salario > 0 ">
-                    <tr>  
-                      <th> Salario Total </th>
-                      <td style="font-size:16px"> <b> ₡ <t t-esc="'{0:,.2f}'.format(int(i.total_salario))"/> </b></td>
-                    </tr>
-                  </t>
-                </table>
-                <p style="page-break-after:always;">   </p>
-              </t>  
-            </t>
-          </t>
-        
-
-         
-
-        </div> 
+          </div>
+        </t>
       </t>
     </template>
   </data>
 </openerp>
-

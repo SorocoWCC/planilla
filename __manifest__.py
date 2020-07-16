@@ -3,7 +3,7 @@
     'name': "planillas",
 
     'summary': """
-        Manejo de Planillas""",
+       San MIguel - Manejo de Planillas""",
 
     'description': """
         Manejo de Planillas
@@ -19,18 +19,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['hr', 'base', 'report'],
+    'depends': ['hr'],
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'templates.xml',
+        'views/planilla.xml',
+        'views/employee.xml',
         'planillas_report.xml',       
-        'views/report_lista.xml',
         'views/report_planilla.xml',
+        'views/report_asistencia.xml',
         'views/report_firmas.xml',
-        'views/report_sobres.xml',
-        'views/report_abonos.xml',
-        'views/report_finiquito_laboral.xml'
+        'views/report_sobres.xml'
+        #'views/report_abonos.xml',
+        #'views/report_finiquito_laboral.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

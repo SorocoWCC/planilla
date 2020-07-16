@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- Vista de formulario - Heredada - Empleado -->
+    <record id="sm_sale_order" model="ir.ui.view">
+      <field name="name">Inherit Form View - Module: Planillas - Object: hr.employee </field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="arch" type="xml">
+                <notebook position="inside">
+          <page string="Información Salarial">
+            <group>
+              <field name="salario"/>
+              <field name="ccss"/>
+              <field name="fecha_ultimo_finiquito"/>
+              <field name="fecha_proximo_finiquito"/>
+            </group>
+          </page>
+        </notebook>
+      </field>
+    </record>
+  </data>
+</odoo>
