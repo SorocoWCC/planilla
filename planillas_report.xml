@@ -7,7 +7,7 @@
             id="report_planilla" 
             model="planilla" 
             report_type="qweb-pdf"
-            name="planillas.report_planilla" 
+            name="planillas.report_planilla_document" 
             file="Planilla" 
         />
 
@@ -37,6 +37,5 @@
             name="planillas.report_firmas_document" 
             file="Firmas" 
         />
-
     </data>
 </openerp>
